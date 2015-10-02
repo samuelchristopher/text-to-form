@@ -1,5 +1,16 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
+  each word in words
+    h1= word
+  h2= maximum
+  if type
+    input(type="#{type}")
+  else if type && maximum
+    h1 Hey
+  
+    
+    
+    
+  
+  

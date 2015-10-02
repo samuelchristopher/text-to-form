@@ -1,0 +1,6 @@
+Name Text 100 characters
+Salary Float 6 digits
+Age Slider 18 - 100
+Department Drop-down EE, CS, ME, Math, Stat, Physics, Chemistry
+Graduate Checkbox Yes, No
+Biodata File 1GB
