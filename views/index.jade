@@ -20,6 +20,21 @@ block content
     h2(ng-if='!checked') #{checkboxFalse}
     input(type="checkbox", ng-model="checked")
     
+  else if type == "file"
+    input(type="file" id="myFile")
+    script. 
+      $('#myFile').bind('change', function() {
+        var limit = parseInt("#{limitInBytes}");
+        var limitAlert = "#{fileLimit}";
+        //this.files[0].size gets the size of your file.
+        var size = this.files[0].size;
+        if (size > limit) {
+          $("#myFile").replaceWith($("#myFile").clone(true))
+          alert('File too big! Limit is ' + limitAlert);
+        }
+        
+      });
+    
   if !maxNumber == ""
     script.
       var max=parseInt("#{maxNumber}");

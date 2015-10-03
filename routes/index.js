@@ -10,7 +10,7 @@ var fs = require('fs');
 
 router.get('/', function(req, res, next) {
   var array = fs.readFileSync('./files/test.txt').toString().split("\n");
-  var line = array[4];
+  var line = array[5];
   var words = line.split(" ");
   var type = words[1].toLowerCase();
   var max = 0;
@@ -40,9 +40,23 @@ router.get('/', function(req, res, next) {
     removeCommaFromArray(answers);
     var checkboxTrue = answers[0];
     var checkboxFalse = answers[1];
+  } else if (type === "file") {
+    function endsWith(str, suffix) {
+        return str.indexOf(suffix, str.length - suffix.length) !== -1;
+    }
+    var type = 'file';
+    var fileLimit = words[2];
+    if (endsWith(fileLimit, 'GB')) {
+      var limitArray = fileLimit.split("GB");
+      var limitInGB = limitArray[0];
+
+      // Convert limit in gb to limit in bytes
+      var limitInBytes = limitInGB * 1024 * 1024 * 1024;
+    }
+
   }
 
-  res.render('index', {words, type, maxNumber, minRange, maxRange, selectOptions, checkboxTrue, checkboxFalse});
+  res.render('index', {words, type, maxNumber, minRange, maxRange, selectOptions, checkboxTrue, checkboxFalse, limitInBytes, fileLimit});
 });
 
 
