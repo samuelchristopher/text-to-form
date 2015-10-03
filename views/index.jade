@@ -6,39 +6,40 @@ block content
   
   if !maxNumber == ""
     h2= maxNumber
-    input(type=type, id='number')
+    input(type=type, id=nameId, name=nameId)
   else if !maxRange == ""
     if !minRange == ""
       h2#rangeLabel value: {{ rangeValue }}
-      input(type=type, max=maxRange, min=minRange, id="range" ng-model="rangeValue")
+      input(type=type, max=maxRange, min=minRange, id=nameId, name=nameId, ng-model="rangeValue")
   else if type == "select"
-    select
+    select(name=nameId)
       each option in selectOptions
         option= option
   else if type == "checkbox"
     h2(ng-if='checked') #{checkboxTrue}
     h2(ng-if='!checked') #{checkboxFalse}
-    input(type="checkbox", ng-model="checked")
+    input(type="checkbox", ng-model="checked", id=nameId, name=nameId)
     
   else if type == "file"
-    input(type="file" id="myFile")
-    script. 
-      $('#myFile').bind('change', function() {
+    input(type="file" id=nameId)
+    script.
+      $("##{nameId}").bind('change', function() {
         var limit = parseInt("#{limitInBytes}");
         var limitAlert = "#{fileLimit}";
         //this.files[0].size gets the size of your file.
         var size = this.files[0].size;
         if (size > limit) {
-          $("#myFile").replaceWith($("#myFile").clone(true))
+          $("##{nameId}").replaceWith($("##{nameId}").clone(true))
           alert('File too big! Limit is ' + limitAlert);
         }
         
       });
-    
+  else if type == "text"
+    input(type="text", id=nameId, name=nameId, maxlength=maxCharacters)
   if !maxNumber == ""
     script.
       var max=parseInt("#{maxNumber}");
-      var myInput = document.getElementById('number');
+      var myInput = document.getElementById('#{nameId}');
       myInput.oninput = function () {
         if (this.value.length > max) {
             this.value = this.value.slice(0,6); 

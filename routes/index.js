@@ -13,6 +13,7 @@ router.get('/', function(req, res, next) {
   var line = array[5];
   var words = line.split(" ");
   var type = words[1].toLowerCase();
+  var nameId = words[0].toLowerCase();
   var max = 0;
 
   function removeCommaFromArray(array) {
@@ -54,9 +55,25 @@ router.get('/', function(req, res, next) {
       var limitInBytes = limitInGB * 1024 * 1024 * 1024;
     }
 
+  } else if (type === "text") {
+    var type = 'text';
+    var maxCharacters = words[2];
   }
 
-  res.render('index', {words, type, maxNumber, minRange, maxRange, selectOptions, checkboxTrue, checkboxFalse, limitInBytes, fileLimit});
+  res.render('index', {
+    nameId,
+    words,
+    type,
+    maxNumber,
+    minRange,
+    maxRange,
+    selectOptions,
+    checkboxTrue,
+    checkboxFalse,
+    limitInBytes,
+    fileLimit,
+    maxCharacters
+  });
 });
 
 
