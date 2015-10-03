@@ -10,16 +10,27 @@ var fs = require('fs');
 
 router.get('/', function(req, res, next) {
   var array = fs.readFileSync('./files/test.txt').toString().split("\n");
-  var line = array[1];
+  var line = array[3];
   var words = line.split(" ");
   var type = words[1].toLowerCase();
   var max = 0;
-  if (type = 'float') {
+  if (type === "float") {
     var type = 'number';
-    var maximum = words[2];
+    var maxNumber = words[2];
+  } else if (type === "slider") {
+    var type = 'range';
+    var minRange = words[2];
+    var maxRange = words[4];
+  } else if (type === "drop-down") {
+    var type = 'select';
+    var selectOptions = words.splice(2);
+    var optionsLenght = selectOptions.length;
+    for(var i = 0; i < optionsLenght; i++) {
+      selectOptions[i] =  selectOptions[i].replace(/,/g, '');
+    }
   }
 
-  res.render('index', {words, type, maximum});
+  res.render('index', {words, type, maxNumber, minRange, maxRange, selectOptions});
 });
 
 

@@ -3,14 +3,24 @@ extends layout
 block content
   each word in words
     h1= word
-  h2= maximum
-  if type
-    input(type="#{type}")
-  else if type && maximum
-    h1 Hey
   
-    
-    
-    
-  
-  
+  if !maxNumber == ""
+    h2= maxNumber
+    input(type=type, id='number')
+  else if !maxRange == ""
+    if !minRange == ""
+      h2#rangeLabel value: {{ rangeValue }}
+      input(type=type, max=maxRange, min=minRange, id="range" ng-model="rangeValue")
+  else if type == "select"
+    select
+      each option in selectOptions
+        option= option
+  if !maxNumber == ""
+    script.
+      var max=parseInt("#{maxNumber}");
+      var myInput = document.getElementById('number');
+      myInput.oninput = function () {
+        if (this.value.length > max) {
+            this.value = this.value.slice(0,6); 
+        }
+      }
