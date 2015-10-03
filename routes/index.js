@@ -10,10 +10,19 @@ var fs = require('fs');
 
 router.get('/', function(req, res, next) {
   var array = fs.readFileSync('./files/test.txt').toString().split("\n");
-  var line = array[3];
+  var line = array[4];
   var words = line.split(" ");
   var type = words[1].toLowerCase();
   var max = 0;
+
+  function removeCommaFromArray(array) {
+    var smallArray = array.length;
+    for(var i = 0; i < smallArray; i++) {
+      array[i] =  array[i].replace(/,/g, '');
+    }
+
+  }
+
   if (type === "float") {
     var type = 'number';
     var maxNumber = words[2];
@@ -24,13 +33,16 @@ router.get('/', function(req, res, next) {
   } else if (type === "drop-down") {
     var type = 'select';
     var selectOptions = words.splice(2);
-    var optionsLenght = selectOptions.length;
-    for(var i = 0; i < optionsLenght; i++) {
-      selectOptions[i] =  selectOptions[i].replace(/,/g, '');
-    }
+    removeCommaFromArray(selectOptions);
+  } else if (type === "checkbox") {
+    var type = 'checkbox';
+    var answers = words.splice(2);
+    removeCommaFromArray(answers);
+    var checkboxTrue = answers[0];
+    var checkboxFalse = answers[1];
   }
 
-  res.render('index', {words, type, maxNumber, minRange, maxRange, selectOptions});
+  res.render('index', {words, type, maxNumber, minRange, maxRange, selectOptions, checkboxTrue, checkboxFalse});
 });
 
 

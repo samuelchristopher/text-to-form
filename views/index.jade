@@ -15,6 +15,11 @@ block content
     select
       each option in selectOptions
         option= option
+  else if type == "checkbox"
+    h2(ng-if='checked') #{checkboxTrue}
+    h2(ng-if='!checked') #{checkboxFalse}
+    input(type="checkbox", ng-model="checked")
+    
   if !maxNumber == ""
     script.
       var max=parseInt("#{maxNumber}");
